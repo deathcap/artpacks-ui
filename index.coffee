@@ -14,7 +14,11 @@ class APSelector
     for pack in @artPacks.packs
       continue if not pack?
 
-      node = document.createTextNode pack.toString()
+      node = document.createElement 'div'
+      node.setAttribute 'style', '
+        border: 1px solid black;
+      '
+      node.textContent = pack.toString()
       @container.appendChild node
 
 

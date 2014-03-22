@@ -26,7 +26,9 @@
         if (pack == null) {
           continue;
         }
-        node = document.createTextNode(pack.toString());
+        node = document.createElement('div');
+        node.setAttribute('style', 'border: 1px solid black;');
+        node.textContent = pack.toString();
         _results.push(this.container.appendChild(node));
       }
       return _results;
