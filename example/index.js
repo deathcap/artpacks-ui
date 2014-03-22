@@ -15,7 +15,7 @@ document.body.appendChild(preview);
 artPacks.on('refresh', function() {
   while(preview.firstChild) preview.removeChild(preview.firstChild);
 
-  ['stone', 'cobblestone', 'dirt', 'grass_top'].forEach(function(name) {
+  ['stone', 'cobblestone', 'dirt', 'grass_top', 'misc/shadow'].forEach(function(name) {
     var node = document.createElement('span');
     node.style.padding = '5px';
     preview.appendChild(node);
@@ -25,5 +25,22 @@ artPacks.on('refresh', function() {
     }, function(err, img) {
       node.appendChild(document.createTextNode(''+err));
     });
+  });
+
+  ['liquid/splash'].forEach(function(name) {
+    var node = document.createElement('div');
+
+    var url = artPacks.getSound(name);
+    if (url) {
+      var audio = document.createElement('audio');
+      audio.controls = true;
+      audio.title = name;
+      audio.src = url;
+      node.appendChild(audio);
+    } else {
+      node.appendChild(document.createTextElement('no such sound: ' + name));
+    }
+
+    preview.appendChild(node);
   });
 });
