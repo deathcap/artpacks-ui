@@ -15,6 +15,7 @@ class APSelector
       continue if not pack?
 
       node = document.createElement 'div'
+      node.setAttribute 'draggable', 'true'
       node.setAttribute 'style', '
         border: 1px solid black;
         -webkit-user-select: none;
@@ -23,6 +24,19 @@ class APSelector
         margin: 10px;
       '
       node.textContent = pack.toString()
+      node.addEventListener 'dragstart', @onDragStart.bind(@, node), false
+      node.addEventListener 'dragenter', @onDragEnter.bind(@, node), false
+      node.addEventListener 'dragover', @onDragOver.bind(@, node), false
+      node.addEventListener 'dragleave', @onDragLeave.bind(@, node), false
+
       @container.appendChild node
 
+
+  onDragStart: (node) ->
+
+  onDragEnter: (node) ->
+
+  onDragOver: (node) ->
+
+  onDragLeave: (node) ->
 

@@ -27,12 +27,25 @@
           continue;
         }
         node = document.createElement('div');
+        node.setAttribute('draggable', 'true');
         node.setAttribute('style', 'border: 1px solid black; -webkit-user-select: none; -moz-user-select: none; cursor: move; margin: 10px;');
         node.textContent = pack.toString();
+        node.addEventListener('dragstart', this.onDragStart.bind(this, node), false);
+        node.addEventListener('dragenter', this.onDragEnter.bind(this, node), false);
+        node.addEventListener('dragover', this.onDragOver.bind(this, node), false);
+        node.addEventListener('dragleave', this.onDragLeave.bind(this, node), false);
         _results.push(this.container.appendChild(node));
       }
       return _results;
     };
+
+    APSelector.prototype.onDragStart = function(node) {};
+
+    APSelector.prototype.onDragEnter = function(node) {};
+
+    APSelector.prototype.onDragOver = function(node) {};
+
+    APSelector.prototype.onDragLeave = function(node) {};
 
     return APSelector;
 
