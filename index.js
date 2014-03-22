@@ -10,6 +10,7 @@
     function APSelector(artPacks) {
       this.artPacks = artPacks;
       this.container = document.createElement('div');
+      this.draggingIndex = void 0;
       this.refresh();
       this.artPacks.on('loadedAll', this.refresh.bind(this));
     }
@@ -32,31 +33,42 @@
         node.textContent = pack.toString();
         node.addEventListener('dragstart', this.onDragStart.bind(this, node, i), false);
         node.addEventListener('dragend', this.onDragEnd.bind(this, node, i), false);
-        node.addEventListener('dragover', this.onDragOver.bind(this, node, i), false);
         node.addEventListener('dragenter', this.onDragEnter.bind(this, node, i), false);
         node.addEventListener('dragleave', this.onDragLeave.bind(this, node, i), false);
+        node.addEventListener('dragover', this.onDragOver.bind(this, node, i), false);
+        node.addEventListener('drop', this.onDrop.bind(this, node, i), false);
         _results.push(this.container.appendChild(node));
       }
       return _results;
     };
 
     APSelector.prototype.onDragStart = function(node, i) {
+      this.draggingIndex = i;
       return node.style.opacity = '0.4';
     };
 
     APSelector.prototype.onDragEnd = function(node, i) {
+      this.draggingIndex = void 0;
       return node.style.opacity = '';
     };
 
-    APSelector.prototype.onDragOver = function(node, i) {};
-
     APSelector.prototype.onDragEnter = function(node, i) {
+      if (i === this.draggingIndex) {
+        return;
+      }
       return node.style.border = '1px dashed black';
     };
 
     APSelector.prototype.onDragLeave = function(node, i) {
+      if (i === this.draggingIndex) {
+        return;
+      }
       return node.style.border = '1px solid black';
     };
+
+    APSelector.prototype.onDragOver = function(node, i) {};
+
+    APSelector.prototype.onDrop = function(node, i) {};
 
     return APSelector;
 

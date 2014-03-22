@@ -4,6 +4,7 @@ module.exports = (artPacks) -> new APSelector(artPacks)
 class APSelector
   constructor: (@artPacks) ->
     @container = document.createElement 'div'
+    @draggingIndex = undefined
 
     @refresh()
     @artPacks.on 'loadedAll', @refresh.bind(@)
@@ -26,24 +27,34 @@ class APSelector
       node.textContent = pack.toString()
       node.addEventListener 'dragstart', @onDragStart.bind(@, node, i), false
       node.addEventListener 'dragend', @onDragEnd.bind(@, node, i), false
-      node.addEventListener 'dragover', @onDragOver.bind(@, node, i), false
       node.addEventListener 'dragenter', @onDragEnter.bind(@, node, i), false
       node.addEventListener 'dragleave', @onDragLeave.bind(@, node, i), false
+      node.addEventListener 'dragover', @onDragOver.bind(@, node, i), false
+      node.addEventListener 'drop', @onDrop.bind(@, node, i), false
 
       @container.appendChild node
 
 
   onDragStart: (node, i) ->
+    @draggingIndex = i
     node.style.opacity = '0.4'
 
   onDragEnd: (node, i) ->
+    @draggingIndex = undefined
     node.style.opacity = ''
 
-  onDragOver: (node, i) ->
 
   onDragEnter: (node, i) ->
+    return if i == @draggingIndex
+
     node.style.border = '1px dashed black'
 
   onDragLeave: (node, i) ->
+    return if i == @draggingIndex
+
     node.style.border = '1px solid black'
 
+
+  onDragOver: (node, i) ->
+  
+  onDrop: (node, i) ->
