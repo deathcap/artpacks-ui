@@ -12,8 +12,6 @@ class APSelector
     @refresh()
     @artPacks.on 'refresh', @refresh.bind(@)
 
-    document.addEventListener 'dragenter', @onDocDragEnter.bind(@)
-    document.addEventListener 'dragleave', @onDocDragLeave.bind(@)
     document.addEventListener 'dragover', @onDocDragOver.bind(@)
     document.addEventListener 'drop', @onDocDrop.bind(@)
 
@@ -33,7 +31,7 @@ class APSelector
         -webkit-user-select: none;
         -moz-user-select: none;
         cursor: move;
-        margin: 10px;
+        padding: 10px;
       '
       node.textContent = pack.toString()
       node.addEventListener 'dragstart', @onDragStart.bind(@, node, i), false
@@ -93,10 +91,6 @@ class APSelector
 
       reader.readAsArrayBuffer(file)
 
-
-  onDocDragEnter: (ev) ->
-
-  onDocDragLeave: (ev) ->
 
   onDocDragOver: (ev) ->
     ev.preventDefault()   # required to allow dropping

@@ -17,8 +17,6 @@
     APSelector.prototype.enable = function() {
       this.refresh();
       this.artPacks.on('refresh', this.refresh.bind(this));
-      document.addEventListener('dragenter', this.onDocDragEnter.bind(this));
-      document.addEventListener('dragleave', this.onDocDragLeave.bind(this));
       document.addEventListener('dragover', this.onDocDragOver.bind(this));
       return document.addEventListener('drop', this.onDocDrop.bind(this));
     };
@@ -39,7 +37,7 @@
         }
         node = document.createElement('div');
         node.setAttribute('draggable', 'true');
-        node.setAttribute('style', 'border: 1px solid black; -webkit-user-select: none; -moz-user-select: none; cursor: move; margin: 10px;');
+        node.setAttribute('style', 'border: 1px solid black; -webkit-user-select: none; -moz-user-select: none; cursor: move; padding: 10px;');
         node.textContent = pack.toString();
         node.addEventListener('dragstart', this.onDragStart.bind(this, node, i), false);
         node.addEventListener('dragend', this.onDragEnd.bind(this, node, i), false);
@@ -115,10 +113,6 @@
       }
       return _results;
     };
-
-    APSelector.prototype.onDocDragEnter = function(ev) {};
-
-    APSelector.prototype.onDocDragLeave = function(ev) {};
 
     APSelector.prototype.onDocDragOver = function(ev) {
       ev.preventDefault();
