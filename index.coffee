@@ -10,7 +10,7 @@ class APSelector
     @artPacks.on 'refresh', @refresh.bind(@)
 
   refresh: () ->
-    @container.removeChild @container.lastChild while @container.lastChild
+    @container.removeChild @container.firstChild while @container.firstChild
 
     for pack, i in @artPacks.packs
       continue if not pack?

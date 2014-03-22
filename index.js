@@ -17,8 +17,8 @@
 
     APSelector.prototype.refresh = function() {
       var i, node, pack, _i, _len, _ref, _results;
-      while (this.container.lastChild) {
-        this.container.removeChild(this.container.lastChild);
+      while (this.container.firstChild) {
+        this.container.removeChild(this.container.firstChild);
       }
       _ref = this.artPacks.packs;
       _results = [];
