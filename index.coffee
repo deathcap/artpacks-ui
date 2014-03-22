@@ -20,6 +20,7 @@ class APSelector
         -webkit-user-select: none;
         -moz-user-select: none;
         cursor: crosshair;
+        margin: 10px;
       '
       node.textContent = pack.toString()
       @container.appendChild node
