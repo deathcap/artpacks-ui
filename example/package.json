@@ -9,7 +9,7 @@
   "keywords": [
   ],
   "dependencies": {
-    "artpacks": "git://github.com/deathcap/artpacks.git#45fa8ce3bd9f57fd8abe9ced12e9df22ff672ae7"
+    "artpacks": "git://github.com/deathcap/artpacks.git#685862ac3932e0572ed261112542d7e0cdb3479d"
   },
   "scripts": {
     "start": "beefy index.js"

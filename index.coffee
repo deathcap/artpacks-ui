@@ -7,7 +7,7 @@ class APSelector
     @draggingIndex = undefined
 
     @refresh()
-    @artPacks.on 'loadedAll', @refresh.bind(@)
+    @artPacks.on 'refresh', @refresh.bind(@)
 
   refresh: () ->
     @container.removeChild @container.lastChild while @container.lastChild
@@ -65,11 +65,5 @@ class APSelector
     ev.stopPropagation()
     @draggingIndex = +ev.dataTransfer.getData('text/plain')  # note: should be the same
 
-    # swap @draggingIndex (source) and i (dest)
-    console.log 'swap',@draggingIndex,i
-    temp = @artPacks.packs[@draggingIndex]
-    @artPacks.packs[@draggingIndex] = @artPacks.packs[i]
-    @artPacks.packs[i] = temp
-
-    @refresh()
+    @artPacks.swap @draggingIndex, i
 

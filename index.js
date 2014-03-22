@@ -12,7 +12,7 @@
       this.container = document.createElement('div');
       this.draggingIndex = void 0;
       this.refresh();
-      this.artPacks.on('loadedAll', this.refresh.bind(this));
+      this.artPacks.on('refresh', this.refresh.bind(this));
     }
 
     APSelector.prototype.refresh = function() {
@@ -74,14 +74,9 @@
     };
 
     APSelector.prototype.onDrop = function(node, i, ev) {
-      var temp;
       ev.stopPropagation();
       this.draggingIndex = +ev.dataTransfer.getData('text/plain');
-      console.log('swap', this.draggingIndex, i);
-      temp = this.artPacks.packs[this.draggingIndex];
-      this.artPacks.packs[this.draggingIndex] = this.artPacks.packs[i];
-      this.artPacks.packs[i] = temp;
-      return this.refresh();
+      return this.artPacks.swap(this.draggingIndex, i);
     };
 
     return APSelector;
