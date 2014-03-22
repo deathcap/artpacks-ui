@@ -36,22 +36,26 @@ class APSelector
 
 
   onDragStart: (node, i, ev) ->
+    console.log 'onDragStart',node,ev,i
     @draggingIndex = i
     node.style.opacity = '0.4'
     ev.dataTransfer.effectAllowed = 'move'
     ev.dataTransfer.setData 'text/plain', ''+i
 
-  onDragEnd: (node, i) ->
+  onDragEnd: (node, i, ev) ->
+    console.log 'onDragEnd',node,ev,i
     @draggingIndex = undefined
     node.style.opacity = ''
 
 
-  onDragEnter: (node, i) ->
+  onDragEnter: (node, i, ev) ->
+    console.log 'onDragEnter',node,ev,i
     return if i == @draggingIndex
 
     node.style.border = '1px dashed black'
 
-  onDragLeave: (node, i) ->
+  onDragLeave: (node, i, ev) ->
+    console.log 'onDragLeave',node,ev,i
     return if i == @draggingIndex
 
     node.style.border = '1px solid black'
@@ -62,6 +66,7 @@ class APSelector
     ev.dataTransfer.dropEffect = 'move'
   
   onDrop: (node, i, ev) ->
+    console.log 'onDrop',node,i,ev
     ev.stopPropagation()
     ev.preventDefault()
 
