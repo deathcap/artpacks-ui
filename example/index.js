@@ -15,13 +15,15 @@ document.body.appendChild(preview);
 artPacks.on('refresh', function() {
   while(preview.firstChild) preview.removeChild(preview.firstChild);
 
-  var stone = document.createElement('div');
-  preview.appendChild(stone);
+  ['stone', 'cobblestone', 'dirt', 'grass_top'].forEach(function(name) {
+    var node = document.createElement('span');
+    node.style.padding = '5px';
+    preview.appendChild(node);
 
-  artPacks.getTextureImage('stone', function(img) {
-    stone.appendChild(img);
-    stone.appendChild(document.createElement('br'));
-  }, function(err, img) {
-    preview.appendChild(document.createTextNode(''+err));
+    artPacks.getTextureImage(name, function(img) {
+      node.appendChild(img);
+    }, function(err, img) {
+      node.appendChild(document.createTextNode(''+err));
+    });
   });
 });
