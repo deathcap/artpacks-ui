@@ -42,9 +42,11 @@
       return _results;
     };
 
-    APSelector.prototype.onDragStart = function(node, i) {
+    APSelector.prototype.onDragStart = function(node, i, ev) {
       this.draggingIndex = i;
-      return node.style.opacity = '0.4';
+      node.style.opacity = '0.4';
+      ev.dataTransfer.effectAllowed = 'move';
+      return ev.dataTransfer.setData('text/plain', '' + i);
     };
 
     APSelector.prototype.onDragEnd = function(node, i) {
@@ -66,9 +68,15 @@
       return node.style.border = '1px solid black';
     };
 
-    APSelector.prototype.onDragOver = function(node, i) {};
+    APSelector.prototype.onDragOver = function(node, i, ev) {
+      ev.preventDefault();
+      return ev.dataTransfer.dropEffect = 'move';
+    };
 
-    APSelector.prototype.onDrop = function(node, i) {};
+    APSelector.prototype.onDrop = function(node, i, ev) {
+      ev.stopPropagation();
+      return console.log('data=', ev.dataTransfer.getData('text/plain'), this.draggingIndex);
+    };
 
     return APSelector;
 

@@ -35,9 +35,11 @@ class APSelector
       @container.appendChild node
 
 
-  onDragStart: (node, i) ->
+  onDragStart: (node, i, ev) ->
     @draggingIndex = i
     node.style.opacity = '0.4'
+    ev.dataTransfer.effectAllowed = 'move'
+    ev.dataTransfer.setData 'text/plain', ''+i
 
   onDragEnd: (node, i) ->
     @draggingIndex = undefined
@@ -55,6 +57,12 @@ class APSelector
     node.style.border = '1px solid black'
 
 
-  onDragOver: (node, i) ->
+  onDragOver: (node, i, ev) ->
+    ev.preventDefault()
+    ev.dataTransfer.dropEffect = 'move'
   
-  onDrop: (node, i) ->
+  onDrop: (node, i, ev) ->
+    ev.stopPropagation()
+
+    console.log 'data=',ev.dataTransfer.getData('text/plain'),@draggingIndex
+
