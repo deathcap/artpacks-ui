@@ -6,8 +6,19 @@ class APSelector
     @container = document.createElement 'div'
     @draggingIndex = undefined
 
+    @enable()
+
+  enable: () ->
     @refresh()
     @artPacks.on 'refresh', @refresh.bind(@)
+
+    document.addEventListener 'dragenter', @onDocDragEnter.bind(@)
+    document.addEventListener 'dragleave', @onDocDragLeave.bind(@)
+    document.addEventListener 'dragover', @onDocDragOver.bind(@)
+    document.addEventListener 'drop', @onDocDrop.bind(@)
+
+  disable: () ->
+    # TODO
 
   refresh: () ->
     @container.removeChild @container.firstChild while @container.firstChild
@@ -79,3 +90,34 @@ class APSelector
         @artPacks.addPack readEvent.currentTarget.result, file.name
 
       reader.readAsArrayBuffer(file)
+
+
+  onDocDragEnter: (ev) ->
+    # create dashed outline
+    # note: not setting document.body.style.border since shifts document
+    @docDragIndicator = document.createElement('div')
+    @docDragIndicator.setAttribute 'style', '
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      border: 5px dashed black;
+    '
+    # TODO: fix obscured right/bottom border
+
+    document.body.appendChild @docDragIndicator
+
+  onDocDragLeave: (ev) ->
+    if @docDragIndicator?
+      @docDragIndicator.parentNode.removeChild @docDragIndicator
+      @docDragIndicator = undefined
+
+  onDocDragOver: (ev) ->
+    ev.preventDefault()
+    ev.dataTransfer.dropEffect = 'move'
+
+  onDocDrop: (ev) ->
+    ev.stopPropagation()
+    ev.preventDefault()
