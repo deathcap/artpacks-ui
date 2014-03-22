@@ -63,6 +63,13 @@ class APSelector
   
   onDrop: (node, i, ev) ->
     ev.stopPropagation()
+    @draggingIndex = +ev.dataTransfer.getData('text/plain')  # note: should be the same
 
-    console.log 'data=',ev.dataTransfer.getData('text/plain'),@draggingIndex
+    # swap @draggingIndex (source) and i (dest)
+    console.log 'swap',@draggingIndex,i
+    temp = @artPacks.packs[@draggingIndex]
+    @artPacks.packs[@draggingIndex] = @artPacks.packs[i]
+    @artPacks.packs[i] = temp
+
+    @refresh()
 

@@ -74,8 +74,14 @@
     };
 
     APSelector.prototype.onDrop = function(node, i, ev) {
+      var temp;
       ev.stopPropagation();
-      return console.log('data=', ev.dataTransfer.getData('text/plain'), this.draggingIndex);
+      this.draggingIndex = +ev.dataTransfer.getData('text/plain');
+      console.log('swap', this.draggingIndex, i);
+      temp = this.artPacks.packs[this.draggingIndex];
+      this.artPacks.packs[this.draggingIndex] = this.artPacks.packs[i];
+      this.artPacks.packs[i] = temp;
+      return this.refresh();
     };
 
     return APSelector;
