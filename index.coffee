@@ -93,26 +93,10 @@ class APSelector
 
 
   onDocDragEnter: (ev) ->
-    # create dashed outline
-    # note: not setting document.body.style.border since shifts document
-    @docDragIndicator = document.createElement('div')
-    @docDragIndicator.setAttribute 'style', '
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      outline: dashed 5px;
-    '
-    # TODO: fix obscured right/bottom border
-
-    document.body.appendChild @docDragIndicator
+    document.body.style.outline = 'dashed 5px'
 
   onDocDragLeave: (ev) ->
-    if @docDragIndicator?
-      @docDragIndicator.parentNode.removeChild @docDragIndicator
-      @docDragIndicator = undefined
+    document.body.style.outline = ''
 
   onDocDragOver: (ev) ->
     ev.preventDefault()

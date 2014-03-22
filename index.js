@@ -114,16 +114,11 @@
     };
 
     APSelector.prototype.onDocDragEnter = function(ev) {
-      this.docDragIndicator = document.createElement('div');
-      this.docDragIndicator.setAttribute('style', 'position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; pointer-events: none; outline: dashed 5px;');
-      return document.body.appendChild(this.docDragIndicator);
+      return document.body.style.outline = 'dashed 5px';
     };
 
     APSelector.prototype.onDocDragLeave = function(ev) {
-      if (this.docDragIndicator != null) {
-        this.docDragIndicator.parentNode.removeChild(this.docDragIndicator);
-        return this.docDragIndicator = void 0;
-      }
+      return document.body.style.outline = '';
     };
 
     APSelector.prototype.onDocDragOver = function(ev) {
