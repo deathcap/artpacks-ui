@@ -11,7 +11,7 @@ class APSelector
   refresh: () ->
     @container.removeChild @container.lastChild while @container.lastChild
 
-    for pack in @artPacks.packs
+    for pack, i in @artPacks.packs
       continue if not pack?
 
       node = document.createElement 'div'
@@ -24,19 +24,26 @@ class APSelector
         margin: 10px;
       '
       node.textContent = pack.toString()
-      node.addEventListener 'dragstart', @onDragStart.bind(@, node), false
-      node.addEventListener 'dragenter', @onDragEnter.bind(@, node), false
-      node.addEventListener 'dragover', @onDragOver.bind(@, node), false
-      node.addEventListener 'dragleave', @onDragLeave.bind(@, node), false
+      node.addEventListener 'dragstart', @onDragStart.bind(@, node, i), false
+      node.addEventListener 'dragend', @onDragEnd.bind(@, node, i), false
+      node.addEventListener 'dragover', @onDragOver.bind(@, node, i), false
+      node.addEventListener 'dragenter', @onDragEnter.bind(@, node, i), false
+      node.addEventListener 'dragleave', @onDragLeave.bind(@, node, i), false
 
       @container.appendChild node
 
 
-  onDragStart: (node) ->
+  onDragStart: (node, i) ->
+    node.style.opacity = '0.4'
 
-  onDragEnter: (node) ->
+  onDragEnd: (node, i) ->
+    node.style.opacity = ''
 
-  onDragOver: (node) ->
+  onDragOver: (node, i) ->
 
-  onDragLeave: (node) ->
+  onDragEnter: (node, i) ->
+    node.style.border = '1px dashed black'
+
+  onDragLeave: (node, i) ->
+    node.style.border = '1px solid black'
 

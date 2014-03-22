@@ -15,14 +15,14 @@
     }
 
     APSelector.prototype.refresh = function() {
-      var node, pack, _i, _len, _ref, _results;
+      var i, node, pack, _i, _len, _ref, _results;
       while (this.container.lastChild) {
         this.container.removeChild(this.container.lastChild);
       }
       _ref = this.artPacks.packs;
       _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        pack = _ref[_i];
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        pack = _ref[i];
         if (pack == null) {
           continue;
         }
@@ -30,22 +30,33 @@
         node.setAttribute('draggable', 'true');
         node.setAttribute('style', 'border: 1px solid black; -webkit-user-select: none; -moz-user-select: none; cursor: move; margin: 10px;');
         node.textContent = pack.toString();
-        node.addEventListener('dragstart', this.onDragStart.bind(this, node), false);
-        node.addEventListener('dragenter', this.onDragEnter.bind(this, node), false);
-        node.addEventListener('dragover', this.onDragOver.bind(this, node), false);
-        node.addEventListener('dragleave', this.onDragLeave.bind(this, node), false);
+        node.addEventListener('dragstart', this.onDragStart.bind(this, node, i), false);
+        node.addEventListener('dragend', this.onDragEnd.bind(this, node, i), false);
+        node.addEventListener('dragover', this.onDragOver.bind(this, node, i), false);
+        node.addEventListener('dragenter', this.onDragEnter.bind(this, node, i), false);
+        node.addEventListener('dragleave', this.onDragLeave.bind(this, node, i), false);
         _results.push(this.container.appendChild(node));
       }
       return _results;
     };
 
-    APSelector.prototype.onDragStart = function(node) {};
+    APSelector.prototype.onDragStart = function(node, i) {
+      return node.style.opacity = '0.4';
+    };
 
-    APSelector.prototype.onDragEnter = function(node) {};
+    APSelector.prototype.onDragEnd = function(node, i) {
+      return node.style.opacity = '';
+    };
 
-    APSelector.prototype.onDragOver = function(node) {};
+    APSelector.prototype.onDragOver = function(node, i) {};
 
-    APSelector.prototype.onDragLeave = function(node) {};
+    APSelector.prototype.onDragEnter = function(node, i) {
+      return node.style.border = '1px dashed black';
+    };
+
+    APSelector.prototype.onDragLeave = function(node, i) {
+      return node.style.border = '1px solid black';
+    };
 
     return APSelector;
 
