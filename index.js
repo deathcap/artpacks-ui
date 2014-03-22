@@ -43,29 +43,25 @@
     };
 
     APSelector.prototype.onDragStart = function(node, i, ev) {
-      console.log('onDragStart', node, ev, i);
       this.draggingIndex = i;
       node.style.opacity = '0.4';
       ev.dataTransfer.effectAllowed = 'move';
       return ev.dataTransfer.setData('text/plain', '' + i);
     };
 
-    APSelector.prototype.onDragEnd = function(node, i, ev) {
-      console.log('onDragEnd', node, ev, i);
+    APSelector.prototype.onDragEnd = function(node, i) {
       this.draggingIndex = void 0;
       return node.style.opacity = '';
     };
 
-    APSelector.prototype.onDragEnter = function(node, i, ev) {
-      console.log('onDragEnter', node, ev, i);
+    APSelector.prototype.onDragEnter = function(node, i) {
       if (i === this.draggingIndex) {
         return;
       }
       return node.style.border = '1px dashed black';
     };
 
-    APSelector.prototype.onDragLeave = function(node, i, ev) {
-      console.log('onDragLeave', node, ev, i);
+    APSelector.prototype.onDragLeave = function(node, i) {
       if (i === this.draggingIndex) {
         return;
       }
@@ -78,7 +74,6 @@
     };
 
     APSelector.prototype.onDrop = function(node, i, ev) {
-      console.log('onDrop', node, i, ev);
       ev.stopPropagation();
       ev.preventDefault();
       if (ev.dataTransfer.files != null) {
