@@ -76,7 +76,7 @@
     APSelector.prototype.onDrop = function(node, i, ev) {
       ev.stopPropagation();
       ev.preventDefault();
-      if (ev.dataTransfer.files != null) {
+      if (ev.dataTransfer.files.length !== 0) {
         return this.addDroppedFiles(ev.dataTransfer.files);
       } else {
         this.draggingIndex = +ev.dataTransfer.getData('text/plain');

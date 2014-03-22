@@ -65,7 +65,7 @@ class APSelector
     ev.stopPropagation()
     ev.preventDefault()
 
-    if ev.dataTransfer.files?
+    if ev.dataTransfer.files.length != 0
       @addDroppedFiles(ev.dataTransfer.files)
     else
       @draggingIndex = +ev.dataTransfer.getData('text/plain')  # note: should be the same
