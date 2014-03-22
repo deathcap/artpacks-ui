@@ -8,19 +8,29 @@
 
   APSelector = (function() {
     function APSelector(artPacks) {
-      var node, pack, _i, _len, _ref;
       this.artPacks = artPacks;
       this.container = document.createElement('div');
+      this.refresh();
+      this.artPacks.on('loadedAll', this.refresh.bind(this));
+    }
+
+    APSelector.prototype.refresh = function() {
+      var node, pack, _i, _len, _ref, _results;
+      while (this.container.lastChild) {
+        this.container.removeChild(this.container.lastChild);
+      }
       _ref = this.artPacks.packs;
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         pack = _ref[_i];
         if (pack == null) {
           continue;
         }
-        node = document.createTextElement(pack.toString());
-        this.container.appendChild(node);
+        node = document.createTextNode(pack.toString());
+        _results.push(this.container.appendChild(node));
       }
-    }
+      return _results;
+    };
 
     return APSelector;
 
