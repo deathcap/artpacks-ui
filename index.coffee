@@ -77,31 +77,37 @@ class APSelector
     ev.preventDefault()
 
     if ev.dataTransfer.files.length != 0
-      @addDroppedFiles(ev.dataTransfer.files)
+      @addDroppedFiles(ev.dataTransfer.files, i)
     else
       @draggingIndex = +ev.dataTransfer.getData('text/plain')  # note: should be the same
       @artPacks.swap @draggingIndex, i
 
-  addDroppedFiles: (files) ->
+  addDroppedFiles: (files, at=undefined) ->
     for file in files
       reader = new FileReader()
       reader.addEventListener 'load', (readEvent) =>
         return if readEvent.total != readEvent.loaded # TODO: progress bar
+        # always add at beginning
+        # TODO: honor 'at', add at specific index
         @artPacks.addPack readEvent.currentTarget.result, file.name
 
       reader.readAsArrayBuffer(file)
 
 
   onDocDragEnter: (ev) ->
-    document.body.style.outline = 'dashed 5px'
 
   onDocDragLeave: (ev) ->
-    document.body.style.outline = ''
 
   onDocDragOver: (ev) ->
-    ev.preventDefault()
+    ev.preventDefault()   # required to allow dropping
+    ev.stopPropagation()
+
     ev.dataTransfer.dropEffect = 'move'
 
   onDocDrop: (ev) ->
-    ev.stopPropagation()
-    ev.preventDefault()
+    if ev.dataTransfer.files.length != 0
+      # dropped file somewhere in document - add as first pack
+      ev.stopPropagation()
+      ev.preventDefault()
+      @addDroppedFiles(ev.dataTransfer.files)
+

@@ -87,15 +87,18 @@
       ev.stopPropagation();
       ev.preventDefault();
       if (ev.dataTransfer.files.length !== 0) {
-        return this.addDroppedFiles(ev.dataTransfer.files);
+        return this.addDroppedFiles(ev.dataTransfer.files, i);
       } else {
         this.draggingIndex = +ev.dataTransfer.getData('text/plain');
         return this.artPacks.swap(this.draggingIndex, i);
       }
     };
 
-    APSelector.prototype.addDroppedFiles = function(files) {
+    APSelector.prototype.addDroppedFiles = function(files, at) {
       var file, reader, _i, _len, _results;
+      if (at == null) {
+        at = void 0;
+      }
       _results = [];
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
@@ -113,22 +116,22 @@
       return _results;
     };
 
-    APSelector.prototype.onDocDragEnter = function(ev) {
-      return document.body.style.outline = 'dashed 5px';
-    };
+    APSelector.prototype.onDocDragEnter = function(ev) {};
 
-    APSelector.prototype.onDocDragLeave = function(ev) {
-      return document.body.style.outline = '';
-    };
+    APSelector.prototype.onDocDragLeave = function(ev) {};
 
     APSelector.prototype.onDocDragOver = function(ev) {
       ev.preventDefault();
+      ev.stopPropagation();
       return ev.dataTransfer.dropEffect = 'move';
     };
 
     APSelector.prototype.onDocDrop = function(ev) {
-      ev.stopPropagation();
-      return ev.preventDefault();
+      if (ev.dataTransfer.files.length !== 0) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        return this.addDroppedFiles(ev.dataTransfer.files);
+      }
     };
 
     return APSelector;
