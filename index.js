@@ -27,7 +27,7 @@
           continue;
         }
         node = document.createElement('div');
-        node.setAttribute('style', 'border: 1px solid black;');
+        node.setAttribute('style', 'border: 1px solid black; -webkit-user-select: none; -moz-user-select: none; cursor: crosshair;');
         node.textContent = pack.toString();
         _results.push(this.container.appendChild(node));
       }
