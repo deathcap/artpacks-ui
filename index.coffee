@@ -19,7 +19,7 @@ class APSelector
         border: 1px solid black;
         -webkit-user-select: none;
         -moz-user-select: none;
-        cursor: crosshair;
+        cursor: move;
         margin: 10px;
       '
       node.textContent = pack.toString()
