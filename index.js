@@ -115,7 +115,7 @@
 
     APSelector.prototype.onDocDragEnter = function(ev) {
       this.docDragIndicator = document.createElement('div');
-      this.docDragIndicator.setAttribute('style', 'position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; pointer-events: none; border: 5px dashed black;');
+      this.docDragIndicator.setAttribute('style', 'position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; pointer-events: none; outline: dashed 5px;');
       return document.body.appendChild(this.docDragIndicator);
     };
 

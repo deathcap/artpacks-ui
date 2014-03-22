@@ -103,7 +103,7 @@ class APSelector
       width: 100%;
       height: 100%;
       pointer-events: none;
-      border: 5px dashed black;
+      outline: dashed 5px;
     '
     # TODO: fix obscured right/bottom border
 
