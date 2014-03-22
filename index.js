@@ -75,8 +75,32 @@
 
     APSelector.prototype.onDrop = function(node, i, ev) {
       ev.stopPropagation();
-      this.draggingIndex = +ev.dataTransfer.getData('text/plain');
-      return this.artPacks.swap(this.draggingIndex, i);
+      ev.preventDefault();
+      if (ev.dataTransfer.files != null) {
+        return this.addDroppedFiles(ev.dataTransfer.files);
+      } else {
+        this.draggingIndex = +ev.dataTransfer.getData('text/plain');
+        return this.artPacks.swap(this.draggingIndex, i);
+      }
+    };
+
+    APSelector.prototype.addDroppedFiles = function(files) {
+      var file, reader, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        reader = new FileReader();
+        reader.addEventListener('load', (function(_this) {
+          return function(readEvent) {
+            if (readEvent.total !== readEvent.loaded) {
+              return;
+            }
+            return _this.artPacks.addPack(readEvent.currentTarget.result, file.name);
+          };
+        })(this));
+        _results.push(reader.readAsArrayBuffer(file));
+      }
+      return _results;
     };
 
     return APSelector;

@@ -63,7 +63,19 @@ class APSelector
   
   onDrop: (node, i, ev) ->
     ev.stopPropagation()
-    @draggingIndex = +ev.dataTransfer.getData('text/plain')  # note: should be the same
+    ev.preventDefault()
 
-    @artPacks.swap @draggingIndex, i
+    if ev.dataTransfer.files?
+      @addDroppedFiles(ev.dataTransfer.files)
+    else
+      @draggingIndex = +ev.dataTransfer.getData('text/plain')  # note: should be the same
+      @artPacks.swap @draggingIndex, i
 
+  addDroppedFiles: (files) ->
+    for file in files
+      reader = new FileReader()
+      reader.addEventListener 'load', (readEvent) =>
+        return if readEvent.total != readEvent.loaded # TODO: progress bar
+        @artPacks.addPack readEvent.currentTarget.result, file.name
+
+      reader.readAsArrayBuffer(file)
