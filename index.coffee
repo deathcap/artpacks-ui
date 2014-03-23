@@ -35,6 +35,8 @@ class APSelector
         -moz-user-select: none;
         cursor: move;
         padding: 10px;
+        display: flex;
+        align-items: center;
       '
       node.addEventListener 'dragstart', @onDragStart.bind(@, node, i), false
       node.addEventListener 'dragend', @onDragEnd.bind(@, node, i), false
@@ -46,6 +48,7 @@ class APSelector
       logo = new Image()
       logo.src = pack.getPackLogo()
       logo.width = logo.height = @logoSize
+      logo.style.paddingRight = '5px' # give some space before text
 
       node.appendChild logo
       node.appendChild document.createTextNode pack.getDescription()

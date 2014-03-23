@@ -42,7 +42,7 @@
         }
         node = document.createElement('div');
         node.setAttribute('draggable', 'true');
-        node.setAttribute('style', 'border: 1px solid black; -webkit-user-select: none; -moz-user-select: none; cursor: move; padding: 10px;');
+        node.setAttribute('style', 'border: 1px solid black; -webkit-user-select: none; -moz-user-select: none; cursor: move; padding: 10px; display: flex; align-items: center;');
         node.addEventListener('dragstart', this.onDragStart.bind(this, node, i), false);
         node.addEventListener('dragend', this.onDragEnd.bind(this, node, i), false);
         node.addEventListener('dragenter', this.onDragEnter.bind(this, node, i), false);
@@ -52,6 +52,7 @@
         logo = new Image();
         logo.src = pack.getPackLogo();
         logo.width = logo.height = this.logoSize;
+        logo.style.paddingRight = '5px';
         node.appendChild(logo);
         node.appendChild(document.createTextNode(pack.getDescription()));
         _results.push(this.container.appendChild(node));
