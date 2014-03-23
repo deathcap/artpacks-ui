@@ -13,6 +13,9 @@
     "resources",
     "ui"
   ],
+  "scripts": {
+    "start": "(cd example && npm start)"
+  },
   "dependencies": {
   },
   "license": "MIT"
