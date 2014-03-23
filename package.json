@@ -1,7 +1,7 @@
 {
   "name": "artpacks-ui",
   "description": "user interface for artpacks module",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:deathcap/artpacks-ui.git"
@@ -16,7 +16,6 @@
   "scripts": {
     "start": "(cd example && npm start)"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "license": "MIT"
 }
