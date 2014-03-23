@@ -24,7 +24,7 @@
     APSelector.prototype.disable = function() {};
 
     APSelector.prototype.refresh = function() {
-      var i, node, pack, _i, _len, _ref, _results;
+      var i, logo, node, pack, _i, _len, _ref, _results;
       while (this.container.firstChild) {
         this.container.removeChild(this.container.firstChild);
       }
@@ -38,13 +38,17 @@
         node = document.createElement('div');
         node.setAttribute('draggable', 'true');
         node.setAttribute('style', 'border: 1px solid black; -webkit-user-select: none; -moz-user-select: none; cursor: move; padding: 10px;');
-        node.textContent = pack.toString();
         node.addEventListener('dragstart', this.onDragStart.bind(this, node, i), false);
         node.addEventListener('dragend', this.onDragEnd.bind(this, node, i), false);
         node.addEventListener('dragenter', this.onDragEnter.bind(this, node, i), false);
         node.addEventListener('dragleave', this.onDragLeave.bind(this, node, i), false);
         node.addEventListener('dragover', this.onDragOver.bind(this, node, i), false);
         node.addEventListener('drop', this.onDrop.bind(this, node, i), false);
+        logo = new Image();
+        logo.src = pack.getPackLogo();
+        logo.width = logo.height = 128;
+        node.appendChild(logo);
+        node.appendChild(document.createTextNode(pack.getDescription()));
         _results.push(this.container.appendChild(node));
       }
       return _results;

@@ -33,13 +33,19 @@ class APSelector
         cursor: move;
         padding: 10px;
       '
-      node.textContent = pack.toString()
       node.addEventListener 'dragstart', @onDragStart.bind(@, node, i), false
       node.addEventListener 'dragend', @onDragEnd.bind(@, node, i), false
       node.addEventListener 'dragenter', @onDragEnter.bind(@, node, i), false
       node.addEventListener 'dragleave', @onDragLeave.bind(@, node, i), false
       node.addEventListener 'dragover', @onDragOver.bind(@, node, i), false
       node.addEventListener 'drop', @onDrop.bind(@, node, i), false
+
+      logo = new Image()
+      logo.src = pack.getPackLogo()
+      logo.width = logo.height = 128
+
+      node.appendChild logo
+      node.appendChild document.createTextNode pack.getDescription()
 
       @container.appendChild node
 
