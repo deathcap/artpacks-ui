@@ -3,9 +3,13 @@
 var createArtPacks = require('artpacks');
 var createUI = require('../');
 
-var artPacks = createArtPacks(['ProgrammerArt-ResourcePack.zip', 'F32.zip']);
+var artPacks = createArtPacks(['ProgrammerArt-ResourcePack.zip']);
 
 var ui = createUI(artPacks);
+
+document.body.appendChild(document.createTextNode('Drop a .zip file here to add, or drag and drop the elements below to reorder:'));
+document.body.appendChild(document.createElement('br'));
+document.body.appendChild(document.createElement('br'));
 
 ui.container.style.width = '500px'
 document.body.appendChild(ui.container);
