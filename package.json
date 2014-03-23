@@ -1,12 +1,17 @@
 {
   "name": "artpacks-ui",
-  "description": "",
+  "description": "user interface for artpacks module",
   "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:deathcap/artpacks-ui.git"
   },
   "keywords": [
+    "art",
+    "assets",
+    "artpacks",
+    "resources",
+    "ui"
   ],
   "dependencies": {
   },
