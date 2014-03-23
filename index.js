@@ -33,7 +33,7 @@
       while (this.container.firstChild) {
         this.container.removeChild(this.container.firstChild);
       }
-      _ref = this.artPacks.packs.slice(0).reverse();
+      _ref = this.artPacks.packs;
       _results = [];
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         pack = _ref[i];

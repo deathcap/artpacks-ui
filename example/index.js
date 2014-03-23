@@ -40,7 +40,7 @@ artPacks.on('refresh', function() {
       audio.src = url;
       node.appendChild(audio);
     } else {
-      node.appendChild(document.createTextElement('no such sound: ' + name));
+      node.appendChild(document.createTextNode('no such sound: ' + name));
     }
 
     preview.appendChild(node);
