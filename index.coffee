@@ -24,7 +24,9 @@ class APSelector
   refresh: () ->
     @container.removeChild @container.firstChild while @container.firstChild
 
-    for pack, i in @artPacks.packs
+    for pack, iReverse in @artPacks.packs.slice(0).reverse()
+      i = @artPacks.packs.length - 1 - iReverse
+
       continue if not pack?
 
       node = document.createElement 'div'

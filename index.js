@@ -29,14 +29,15 @@
     APSelector.prototype.disable = function() {};
 
     APSelector.prototype.refresh = function() {
-      var i, logo, node, pack, _i, _len, _ref, _results;
+      var i, iReverse, logo, node, pack, _i, _len, _ref, _results;
       while (this.container.firstChild) {
         this.container.removeChild(this.container.firstChild);
       }
-      _ref = this.artPacks.packs;
+      _ref = this.artPacks.packs.slice(0).reverse();
       _results = [];
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        pack = _ref[i];
+      for (iReverse = _i = 0, _len = _ref.length; _i < _len; iReverse = ++_i) {
+        pack = _ref[iReverse];
+        i = this.artPacks.packs.length - 1 - iReverse;
         if (pack == null) {
           continue;
         }
