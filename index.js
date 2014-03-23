@@ -7,10 +7,15 @@
   };
 
   APSelector = (function() {
-    function APSelector(artPacks) {
+    function APSelector(artPacks, opts) {
+      var _ref;
       this.artPacks = artPacks;
       this.container = document.createElement('div');
       this.draggingIndex = void 0;
+      if (opts == null) {
+        opts = {};
+      }
+      this.logoSize = (_ref = opts.logoSize) != null ? _ref : 64;
       this.enable();
     }
 
@@ -46,7 +51,7 @@
         node.addEventListener('drop', this.onDrop.bind(this, node, i), false);
         logo = new Image();
         logo.src = pack.getPackLogo();
-        logo.width = logo.height = 128;
+        logo.width = logo.height = this.logoSize;
         node.appendChild(logo);
         node.appendChild(document.createTextNode(pack.getDescription()));
         _results.push(this.container.appendChild(node));

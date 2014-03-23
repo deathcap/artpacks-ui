@@ -2,9 +2,12 @@
 module.exports = (artPacks) -> new APSelector(artPacks)
 
 class APSelector
-  constructor: (@artPacks) ->
+  constructor: (@artPacks, opts) ->
     @container = document.createElement 'div'
     @draggingIndex = undefined
+    
+    opts ?= {}
+    @logoSize = opts.logoSize ? 64 # natively 128x128
 
     @enable()
 
@@ -42,7 +45,7 @@ class APSelector
 
       logo = new Image()
       logo.src = pack.getPackLogo()
-      logo.width = logo.height = 128
+      logo.width = logo.height = @logoSize
 
       node.appendChild logo
       node.appendChild document.createTextNode pack.getDescription()
