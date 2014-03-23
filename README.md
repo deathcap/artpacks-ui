@@ -14,7 +14,8 @@ New packs can be added by dropping a .zip file from disk. The above screenshot
 shows three resource packs loaded:
 [ProgrammerArt](https://github.com/deathcap/ProgrammerArt),
 [Faithful32](https://github.com/smenes/Faithful32), and
-[Sphax PureBDCraft](http://bdcraft.net/).
+[Sphax PureBDCraft](http://bdcraft.net/). For a usage example, run
+`npm start` or try the [live demo](http://deathcap.github.io/artpacks-ui/).
 
 ## License
 
