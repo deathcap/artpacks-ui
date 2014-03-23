@@ -11,6 +11,8 @@ ui.container.style.width = '500px'
 document.body.appendChild(ui.container);
 
 var preview = document.createElement('div');
+preview.style.padding = '10px';
+
 document.body.appendChild(preview);
 artPacks.on('refresh', function() {
   while(preview.firstChild) preview.removeChild(preview.firstChild);
