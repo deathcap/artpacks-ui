@@ -1,37 +1,47 @@
+'use strict';
 
-module.exports = (artPacks) -> new APSelector(artPacks)
+module.exports = (artPacks) => new APSelector(artPacks);
 
-class APSelector
-  constructor: (@artPacks, opts) ->
-    @container = document.createElement 'div'
-    @draggingIndex = undefined
-    
-    opts ?= {}
-    @logoSize = opts.logoSize ? 64 # natively 128x128
+class APSelector {
+  constructor(artPacks, opts) {
+    this.artPacks = artPacks;
+    this.container = document.createElement('div');
+    this.draggingIndex = undefined;
 
-    @enable()
+    if (!opts) opts = {};
+    this.logoSize = opts.logoSize !== undefined ? opts.logoSize : 64; // natively 128x128
 
-  enable: () ->
-    @refresh()
-    @artPacks.on 'refresh', @refresh.bind(@)
+    this.enable();
+  }
 
-    document.addEventListener 'dragover', @onDocDragOver.bind(@)
-    document.addEventListener 'drop', @onDocDrop.bind(@)
+  enable() {
+    this.refresh();
+    this.artPacks.on('refresh', this.refresh.bind(this));
 
-  disable: () ->
-    # TODO
+    document.addEventListener('dragover', this.onDocDragOver.bind(this));
+    document.addEventListener('drop', this.onDocDrop.bind(this));
+  }
 
-  refresh: () ->
-    @container.removeChild @container.firstChild while @container.firstChild
+  disable() {
+    // TODO
+  }
 
-    for pack, iReverse in @artPacks.packs.slice(0).reverse()
-      i = @artPacks.packs.length - 1 - iReverse
+  refresh() {
+    while(this.container.firstChild) {
+      this.container.removeChild(this.container.firstChild);
+    }
 
-      continue if not pack?
+    const reversedPacks = this.artPacks.packs.slice(0).reverse();
+    for (let iReverse in reversedPacks) {
+      const pack = reversedPacks[iReverse];
 
-      node = document.createElement 'div'
-      node.setAttribute 'draggable', 'true'
-      node.setAttribute 'style', '
+      const i = this.artPacks.packs.length - 1 - iReverse;
+
+      if (!pack) continue;
+
+      const node = document.createElement('div');
+      node.setAttribute('draggable', 'true');
+      node.setAttribute('style', `
         border: 1px solid black;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -39,83 +49,97 @@ class APSelector
         padding: 10px;
         display: flex;
         align-items: center;
-      '
-      node.addEventListener 'dragstart', @onDragStart.bind(@, node, i), false
-      node.addEventListener 'dragend', @onDragEnd.bind(@, node, i), false
-      node.addEventListener 'dragenter', @onDragEnter.bind(@, node, i), false
-      node.addEventListener 'dragleave', @onDragLeave.bind(@, node, i), false
-      node.addEventListener 'dragover', @onDragOver.bind(@, node, i), false
-      node.addEventListener 'drop', @onDrop.bind(@, node, i), false
+      `);
 
-      logo = new Image()
-      logo.src = pack.getPackLogo()
-      logo.width = logo.height = @logoSize
-      logo.style.paddingRight = '5px' # give some space before text
+      node.addEventListener('dragstart', this.onDragStart.bind(this, node, i), false);
+      node.addEventListener('dragend', this.onDragEnd.bind(this, node, i), false);
+      node.addEventListener('dragenter', this.onDragEnter.bind(this, node, i), false);
+      node.addEventListener('dragleave', this.onDragLeave.bind(this, node, i), false);
+      node.addEventListener('dragover', this.onDragOver.bind(this, node, i), false);
+      node.addEventListener('drop', this.onDrop.bind(this, node, i), false);
 
-      node.appendChild logo
-      node.appendChild document.createTextNode pack.getDescription()
+      const logo = new Image();
+      logo.src = pack.getPackLogo();
+      logo.width = logo.height = this.logoSize;
+      logo.style.paddingRight = '5px'; // give some space before text
 
-      @container.appendChild node
+      node.appendChild(logo);
+      node.appendChild(document.createTextNode(pack.getDescription()));
 
+      this.container.appendChild(node);
+    }
+  }
 
-  onDragStart: (node, i, ev) ->
-    @draggingIndex = i
-    node.style.opacity = '0.4'
-    ev.dataTransfer.effectAllowed = 'move'
-    ev.dataTransfer.setData 'text/plain', ''+i
+  onDragStart(node, i, ev) {
+    this.draggingIndex = i;
+    node.style.opacity = '0.4';
+    ev.dataTransfer.effectAllowed = 'move';
+    ev.dataTransfer.setData('text/plain', ''+i);
+  }
 
-  onDragEnd: (node, i) ->
-    @draggingIndex = undefined
-    node.style.opacity = ''
+  onDragEnd(node, i) {
+    this.draggingIndex = undefined;
+    node.style.opacity = '';
+  }
 
+  onDragEnter(node, i) {
+    if (i === this.draggingIndex) return;
 
-  onDragEnter: (node, i) ->
-    return if i == @draggingIndex
+    node.style.border = '1px dashed black';
+  }
 
-    node.style.border = '1px dashed black'
+  onDragLeave(node, i) {
+    if (i === this.draggingIndex) return;
 
-  onDragLeave: (node, i) ->
-    return if i == @draggingIndex
+    node.style.border = '1px solid black';
+  }
 
-    node.style.border = '1px solid black'
-
-
-  onDragOver: (node, i, ev) ->
-    ev.preventDefault()
-    ev.dataTransfer.dropEffect = 'move'
+  onDragOver(node, i, ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = 'move';
+  }
   
-  onDrop: (node, i, ev) ->
-    ev.stopPropagation()
-    ev.preventDefault()
+  onDrop(node, i, ev) {
+    ev.stopPropagation();
+    ev.preventDefault();
 
-    if ev.dataTransfer.files.length != 0
-      @addDroppedFiles(ev.dataTransfer.files, i)
-    else
-      @draggingIndex = +ev.dataTransfer.getData('text/plain')  # note: should be the same
-      @artPacks.swap @draggingIndex, i
+    if (ev.dataTransfer.files.length !== 0) {
+      this.addDroppedFiles(ev.dataTransfer.files, i);
+    } else {
+      this.draggingIndex = +ev.dataTransfer.getData('text/plain');  // note: should be the same
+      this.artPacks.swap(this.draggingIndex, i);
+    }
+  }
 
-  addDroppedFiles: (files, at=undefined) ->
-    for file in files
-      reader = new FileReader()
-      reader.addEventListener 'load', (readEvent) =>
-        return if readEvent.total != readEvent.loaded # TODO: progress bar
-        # always add at beginning
-        # TODO: honor 'at', add at specific index
-        @artPacks.addPack readEvent.currentTarget.result, file.name
+  addDroppedFiles(files, at) {
+    //for (let file of files) { // TypeError:  is not a function? (yes its actually blank. Chrome 48)
+    for (let i = 0; i < files.length; ++i) {
+      const file = files[i];
+      let reader = new FileReader();
+      reader.addEventListener('load', (readEvent) => {
+        if (readEvent.total !== readEvent.loaded) return; // TODO: progress bar
+        // always add at beginning
+        // TODO: honor 'at', add at specific index
+        this.artPacks.addPack(readEvent.currentTarget.result, file.name);
+      });
 
-      reader.readAsArrayBuffer(file)
+      reader.readAsArrayBuffer(file);
+    }
+  }
 
+  onDocDragOver(ev) {
+    ev.preventDefault();   // required to allow dropping
+    ev.stopPropagation();
 
-  onDocDragOver: (ev) ->
-    ev.preventDefault()   # required to allow dropping
-    ev.stopPropagation()
+    ev.dataTransfer.dropEffect = 'move';
+  }
 
-    ev.dataTransfer.dropEffect = 'move'
-
-  onDocDrop: (ev) ->
-    if ev.dataTransfer.files.length != 0
-      # dropped file somewhere in document - add as first pack
-      ev.stopPropagation()
-      ev.preventDefault()
-      @addDroppedFiles(ev.dataTransfer.files)
-
+  onDocDrop(ev) {
+    if (ev.dataTransfer.files.length !== 0) {
+      // dropped file somewhere in document - add as first pack
+      ev.stopPropagation();
+      ev.preventDefault();
+      this.addDroppedFiles(ev.dataTransfer.files);
+    }
+  }
+}
