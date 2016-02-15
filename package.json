@@ -2,6 +2,7 @@
   "name": "artpacks-ui",
   "description": "user interface for artpacks module",
   "version": "0.1.0",
+  "main": "artpacks-ui.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:deathcap/artpacks-ui.git"
